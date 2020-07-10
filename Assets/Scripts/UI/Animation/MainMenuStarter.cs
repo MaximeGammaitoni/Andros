@@ -68,11 +68,11 @@ public class MainMenuStarter : MonoBehaviour
     {
         if (canStart && Input.anyKeyDown)
         {
-            StartCoroutine(nowLoadingC());
+            StartCoroutine(NowLoadingC());
         }
     }
 
-    IEnumerator nowLoadingC()
+    IEnumerator NowLoadingC()
     {
         canStart = false;
         yield return new WaitForSeconds(1);

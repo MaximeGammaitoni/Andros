@@ -1,7 +1,9 @@
-﻿using System;
+﻿using States;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,10 +22,11 @@ public class GameManager : MonoBehaviour
 
 
     // Declare all your service here
-    [HideInInspector] public EventsManager EventsManager { get; set; }
     [HideInInspector] public PlayerEvents PlayerEvents { get; set; }
+    [HideInInspector] public StatesEvents StatesEvents { get; set; }
     [HideInInspector] public ResourcesLoader ResourcesLoader { get; set; }
     [HideInInspector] public ScoreManager ScoreManager { get; set; }
+    [HideInInspector] public StatesManager StatesManager { get; set; }
 
     public void Awake()
     {
@@ -37,15 +40,38 @@ public class GameManager : MonoBehaviour
     {
         try
         {
+            EventsManager.Init();
             ResourcesLoader = new ResourcesLoader();
-            EventsManager = new EventsManager();
+            
             ScoreManager = new ScoreManager();
             PlayerEvents = new PlayerEvents();
+            StatesEvents = new StatesEvents();
+            StatesManager = new StatesManager();
+            EventsManager.StartListening("OnBeginIn", testBeginInEvent);
+            EventsManager.StartListening("OnBeginOut", testBeginOutEvent);
+            EventsManager.StartListening("OnRunIn", testRunInEvent);
+            StatesManager.CurrentState = new Begin();
+
         }
         catch (Exception e)
         {
             Debug.LogException(e);
         }
+    }
+
+    private void testBeginInEvent(Args args)
+    {
+        Debug.Log("beginIn");
+        StatesManager.CurrentState = new Run();
+    }
+    public void testBeginOutEvent(Args args)
+    {
+        Debug.Log("beginOut");
+       
+    }
+    public void testRunInEvent(Args args)
+    {
+        Debug.Log("runIn");
     }
     public void OnDisable()
     {
