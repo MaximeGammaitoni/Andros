@@ -8,11 +8,6 @@ public class PlayerEvents
 {
     public PlayerEvents()
     {
-        //OnPlayerDeath += PlayerDeath;
-        //OnPlayerDeath += Test;
-        GameManager.singleton.EventsManager.StartListening(nameof(OnPlayerDeath), PlayerDeathHandler);
-        Debug.Log(GameManager.singleton.ScoreManager?.MyString);
-        GameManager.GameUpdateHandler += PlayerUpdate;
         PlayerIsDead();
     }
 
@@ -38,10 +33,7 @@ public class PlayerEvents
     }
     public void PlayerIsDead()
     {
-        GameManager.singleton.EventsManager.TriggerEvent("OnPlayerDeath", new PlayerDeathArgs { PlayerGo = new GameObject("test") });
-    }
-    public void PlayerUpdate()
-    {
+        EventsManager.TriggerEvent("OnPlayerDeath", new PlayerDeathArgs { PlayerGo = new GameObject("test") });
     }
 
 }
