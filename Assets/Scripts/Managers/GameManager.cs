@@ -21,10 +21,9 @@ public class GameManager : MonoBehaviour
 
     // Declare all your service here
     [HideInInspector] public ResourcesLoaderManager ResourcesLoaderManager;
-    [HideInInspector] public EventsManager EventsManager { get; set; }
     [HideInInspector] public PlayerEvents PlayerEvents { get; set; }
-    
     [HideInInspector] public ScoreManager ScoreManager { get; set; }
+    [HideInInspector] public StatesManager StatesManager { get; set; }
 
     public void Awake()
     {
@@ -40,9 +39,9 @@ public class GameManager : MonoBehaviour
         {
             ResourcesLoaderManager = transform.GetComponentInChildren<ResourcesLoaderManager>();
 
-            EventsManager = new EventsManager();
             ScoreManager = new ScoreManager();
             PlayerEvents = new PlayerEvents();
+            StatesManager = new StatesManager();
         }
         catch (Exception e)
         {
