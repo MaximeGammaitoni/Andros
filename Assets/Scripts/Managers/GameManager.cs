@@ -11,24 +11,25 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public delegate void GameEventManager();
     [HideInInspector] public static event GameEventManager SystemOnInit;
 
-    [HideInInspector] public static event GameEventManager ApplicationOnQuit;
-    [HideInInspector] public static event GameEventManager ApplicationOnPause;
-    [HideInInspector] public static event GameEventManager ApplicationOnFocus;
+    [HideInInspector] public static event GameEventManager ApplicationQuitHandler;
+    [HideInInspector] public static event GameEventManager ApplicationPauseHandler;
+    [HideInInspector] public static event GameEventManager ApplicationFocusHandler;
 
-    [HideInInspector] public static event GameEventManager GameUpdate;
-    [HideInInspector] public static event GameEventManager GameFixedUpdate;
+    [HideInInspector] public static event GameEventManager GameUpdateHandler;
+    [HideInInspector] public static event GameEventManager GameFixedUpdateHandler;
 
 
     // Declare all your service here
+    [HideInInspector] public ResourcesLoaderManager ResourcesLoaderManager;
     [HideInInspector] public EventsManager EventsManager { get; set; }
     [HideInInspector] public PlayerEvents PlayerEvents { get; set; }
-    [HideInInspector] public ResourcesLoader ResourcesLoader { get; set; }
+    
     [HideInInspector] public ScoreManager ScoreManager { get; set; }
 
     public void Awake()
     {
-        GameUpdate = null;
-        GameFixedUpdate = null;
+        GameUpdateHandler = null;
+        GameFixedUpdateHandler = null;
         singleton = this;
         Debug.Log("singleton:" + singleton.ToString() + " is created");
         StartGameManager();
@@ -37,7 +38,8 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            ResourcesLoader = new ResourcesLoader();
+            ResourcesLoaderManager = transform.GetComponentInChildren<ResourcesLoaderManager>();
+
             EventsManager = new EventsManager();
             ScoreManager = new ScoreManager();
             PlayerEvents = new PlayerEvents();
@@ -64,8 +66,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        GameUpdate?.Invoke();
-
+        GameUpdateHandler?.Invoke();
     }
 
     private void OnMouseDown()
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GameFixedUpdate?.Invoke();
+        GameFixedUpdateHandler?.Invoke();
     }
     public void StartCouroutineInGameManager(IEnumerator routine, string routineName)
     {
@@ -110,18 +111,18 @@ public class GameManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        ApplicationOnQuit?.Invoke();
+        ApplicationQuitHandler?.Invoke();
     }
 
     private void OnApplicationFocus(bool focus)
     {
         if (focus)
         {
-            ApplicationOnFocus?.Invoke();
+            ApplicationFocusHandler?.Invoke();
         }
         else
         {
-            ApplicationOnPause?.Invoke();
+            ApplicationPauseHandler?.Invoke();
         }
     }
 
