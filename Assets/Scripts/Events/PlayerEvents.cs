@@ -8,7 +8,6 @@ public class PlayerEvents
 {
     public PlayerEvents()
     {
-        GameManager.GameUpdateHandler += PlayerUpdate;
         PlayerIsDead();
     }
 
@@ -35,9 +34,6 @@ public class PlayerEvents
     public void PlayerIsDead()
     {
         EventsManager.TriggerEvent("OnPlayerDeath", new PlayerDeathArgs { PlayerGo = new GameObject("test") });
-    }
-    public void PlayerUpdate()
-    {
     }
 
 }
