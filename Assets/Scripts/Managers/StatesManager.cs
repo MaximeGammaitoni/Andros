@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using States;
+using Zenject;
 
 public class StatesManager
 {
     BaseState currentState;
+
     public BaseState CurrentState { 
         get
         {

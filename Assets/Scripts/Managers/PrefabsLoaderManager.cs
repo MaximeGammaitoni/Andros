@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ResourcesLoaderManager : MonoBehaviour
+public class PrefabsLoaderManager : MonoBehaviour
 {
     public VFXLoader VFXLoader;
     public EnnemiesLoader EnnemiesLoader;

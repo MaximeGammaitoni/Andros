@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public static GameManager singleton;
-
     [HideInInspector] public Dictionary<string, IEnumerator> coroutines;
     [HideInInspector] public delegate void GameEventManager();
     [HideInInspector] public static event GameEventManager SystemOnInit;
@@ -17,50 +16,19 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public static event GameEventManager GameUpdateHandler;
     [HideInInspector] public static event GameEventManager GameFixedUpdateHandler;
+    private StatesManager statesManager;
+    private PrefabsLoaderManager resourcesLoaderManager;
 
-
-    // Declare all your service here
-    [HideInInspector] public ResourcesLoaderManager ResourcesLoaderManager;
-    [HideInInspector] public PlayerEvents PlayerEvents { get; set; }
-    [HideInInspector] public ScoreManager ScoreManager { get; set; }
-    [HideInInspector] public StatesManager StatesManager { get; set; }
-
-    public void Awake()
+    [Inject]
+    private void Init(StatesManager statesManager, PrefabsLoaderManager resourcesLoaderManager)
     {
-        GameUpdateHandler = null;
-        GameFixedUpdateHandler = null;
-        singleton = this;
-        Debug.Log("singleton:" + singleton.ToString() + " is created");
-        StartGameManager();
+        this.statesManager = statesManager;
+        this.resourcesLoaderManager = resourcesLoaderManager;
+        Debug.Log(resourcesLoaderManager.EnnemiesLoader.Ennemy1);
     }
-    private void StartGameManager()
+    private void Awake()
     {
-        try
-        {
-            ResourcesLoaderManager = transform.GetComponentInChildren<ResourcesLoaderManager>();
-
-            ScoreManager = new ScoreManager();
-            PlayerEvents = new PlayerEvents();
-            StatesManager = new StatesManager();
-        }
-        catch (Exception e)
-        {
-            Debug.LogException(e);
-        }
-    }
-    public void OnDisable()
-    {
-
-        //TODO : disable other game event
-    }
-
-    public void InitUnitySystem()
-    {
-        if (SystemOnInit != null)
-        {
-            Debug.Log(" GAME MANAGER INIT UNITY SYSTEM");
-            SystemOnInit();
-        }
+        
     }
 
     private void Update()
