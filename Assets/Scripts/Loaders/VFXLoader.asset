@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936d6687cd3d31145aecf978d0a55473, type: 3}
   m_Name: VFXLoader
   m_EditorClassIdentifier: 
-  VFX1: {fileID: 0}
-  VFX2: {fileID: 0}
+  VFX1: {fileID: 6118766406199521970, guid: 7f32bb8d0b10c8a49b6bef28079d4b82, type: 3}
+  VFX2: {fileID: 6118766406199521970, guid: 7f32bb8d0b10c8a49b6bef28079d4b82, type: 3}
